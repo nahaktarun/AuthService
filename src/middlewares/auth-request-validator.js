@@ -7,6 +7,7 @@ const validateUserAuth = (req, res, next) => {
       err: "Email or password missing in the request",
     });
   }
+  next();
 };
 
 module.exports = {
