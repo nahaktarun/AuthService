@@ -79,6 +79,15 @@ class UserService {
       console.log("Something went wrong in password verification.");
     }
   }
+
+  isAdmin(userId) {
+    try {
+      return this.userRepository.isAdmin(userId);
+    } catch (error) {
+      console.log("Somthing went wrong in service layer");
+      throw { error };
+    }
+  }
 }
 
 module.exports = UserService;
