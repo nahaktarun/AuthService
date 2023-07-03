@@ -3,7 +3,7 @@ const validateUserAuth = (req, res, next) => {
     return res.status(400).json({
       success: false,
       data: {},
-      message: "Somethign went wrong",
+      message: "Something went wrong",
       err: "Email or password missing in the request",
     });
   }
@@ -15,7 +15,7 @@ const validateIsAdminRequest = (req, res, next) => {
     return res.status(400).json({
       success: false,
       data: {},
-      error: "User id not given",
+      err: "User id not given",
       message: "Something went wrong",
     });
   }

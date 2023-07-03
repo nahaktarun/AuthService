@@ -1,5 +1,5 @@
-const ValidationError = require("../utils/Validation-error");
 const { User, Role } = require("../models/index");
+const ValidationError = require("../utils/Validation-error");
 
 class UserRepository {
   async create(data) {
@@ -10,22 +10,22 @@ class UserRepository {
       if (error.name == "SequelizeValidationError") {
         throw new ValidationError(error);
       }
-
       console.log("Something went wrong on repository layer");
-      throw { error };
+      throw error;
     }
   }
 
-  async destory(userId) {
+  async destroy(userId) {
     try {
-      await User.destory({
+      await User.destroy({
         where: {
           id: userId,
         },
       });
+      return true;
     } catch (error) {
-      console.log("Somethig went wrong on repository layer");
-      throw { error };
+      console.log("Something went wrong on repository layer");
+      throw error;
     }
   }
 
@@ -36,8 +36,8 @@ class UserRepository {
       });
       return user;
     } catch (error) {
-      console.log("Somthing went wrong on repository layer");
-      throw { error };
+      console.log("Something went wrong on repository layer");
+      throw error;
     }
   }
 
@@ -51,14 +51,14 @@ class UserRepository {
       return user;
     } catch (error) {
       console.log("Something went wrong on repository layer");
-      return { error };
+      throw error;
     }
   }
 
   async isAdmin(userId) {
     try {
       const user = await User.findByPk(userId);
-      const adminRole = await Role.find({
+      const adminRole = await Role.findOne({
         where: {
           name: "ADMIN",
         },
@@ -66,7 +66,7 @@ class UserRepository {
       return user.hasRole(adminRole);
     } catch (error) {
       console.log("Something went wrong on repository layer");
-      return { error };
+      throw error;
     }
   }
 }

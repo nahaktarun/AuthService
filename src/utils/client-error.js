@@ -1,10 +1,12 @@
 const AppError = require("./error-handler");
 const { StatusCodes } = require("http-status-codes");
 
-class ValidationError extends AppError {
+class ClientError extends AppError {
   constructor(error) {
-    let errorName = error.name;
     let explanation = [];
+    let errorName = error.name;
+
+    // Object.keys(error.error);
     error.errors.forEach((err) => {
       explanation.push(err.message);
     });
@@ -18,4 +20,4 @@ class ValidationError extends AppError {
   }
 }
 
-module.exports = ValidationError;
+module.exports = ClientError;

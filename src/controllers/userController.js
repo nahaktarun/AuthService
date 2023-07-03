@@ -1,4 +1,6 @@
+const { response } = require("express");
 const UserService = require("../services/user-service");
+
 const userService = new UserService();
 
 const create = async (req, res) => {
@@ -7,19 +9,19 @@ const create = async (req, res) => {
       email: req.body.email,
       password: req.body.password,
     });
-    return res.status(error.statusCode).json({
+    return res.status(201).json({
       success: true,
+      message: "Successfully created a new user",
       data: response,
-      message: "User created successfully",
-      error: {},
+      err: {},
     });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({
+    // console.log(error);
+    return res.status(400).json({
       message: error.message,
       data: {},
       success: false,
-      err: error.description,
+      err: error.explanation,
     });
   }
 };
@@ -34,7 +36,7 @@ const signIn = async (req, res) => {
       success: true,
       data: response,
       err: {},
-      message: "Successfully logged in...",
+      message: "Successfully signed in",
     });
   } catch (error) {
     console.log(error);
@@ -50,12 +52,11 @@ const signIn = async (req, res) => {
 const isAuthenticated = async (req, res) => {
   try {
     const token = req.headers["x-access-token"];
-
     const response = await userService.isAuthenticated(token);
     return res.status(200).json({
       success: true,
-      data: response,
       err: {},
+      data: response,
       message: "user is authenticated and token is valid",
     });
   } catch (error) {
@@ -75,8 +76,8 @@ const isAdmin = async (req, res) => {
     return res.status(200).json({
       data: response,
       err: {},
-      message: "Successfully fetched user is admin or not",
       success: true,
+      message: "Successfully fetched whether user is admin or not",
     });
   } catch (error) {
     console.log(error);
